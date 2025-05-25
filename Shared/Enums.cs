@@ -32,4 +32,11 @@ namespace Shared
         Online,
         Offline,
     }
+
+    public enum NotificationType
+    {
+        System,
+        Order,
+        Register
+    }
 }

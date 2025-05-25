@@ -24,6 +24,14 @@ namespace Data.Implementations
             return user;
         }
 
+        public async Task<User?> GetDetailAsync(Guid id)
+        {
+            var entity = await _context.Users
+                .Include(x => x.Addresses)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            return entity;
+        }
+
         public async Task<List<User>> GetListWithFilterAsync(UserFilter filter)
         {
             var query = Filter(filter);

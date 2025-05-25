@@ -22,6 +22,8 @@ namespace Shared.Models
         public int? ReviewCount { get; set; }
         public string? Bio { get; set; }
         public string? WorkingStatus { get; set; }
+
+        public List<AddressUserDto>? Addresses { get; set; }
     }
 
     public class AuthLoginRequest
@@ -56,11 +58,6 @@ namespace Shared.Models
         public string? Email { get; set; }
         public string? Phone { get; set; }
         public string? Password { get; set; }
-        public string? Role { get; set; }
-        public int? Average { get; set; }
-        public int? ReviewCount { get; set; }
-        public string? Bio { get; set; }
-        public string? WorkingStatus { get; set; }
     }
 
     public class UpdateUserRequest

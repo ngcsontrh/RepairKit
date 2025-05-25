@@ -7,6 +7,6 @@ namespace API.Controllers
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private
+        
     }
 }

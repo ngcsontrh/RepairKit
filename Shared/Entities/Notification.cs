@@ -8,9 +8,9 @@ namespace Shared.Entities
 {
     public class Notification
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        public Guid OrderId { get; set; }
-        public Guid RepairmanFormId { get; set; }
+        public Guid Id { get; set; } = Guid.CreateVersion7();
+        public Guid? OrderId { get; set; }
+        public Guid? RepairmanFormId { get; set; }
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Type { get; set; }

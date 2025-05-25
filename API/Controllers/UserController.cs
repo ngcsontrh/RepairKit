@@ -15,10 +15,15 @@ namespace API.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepository;
+        private readonly IAddressUserRepository _addressUserRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(
+            IUserRepository userRepository,
+            IAddressUserRepository addressUserRepository
+            )
         {
             _userRepository = userRepository;
+            _addressUserRepository = addressUserRepository;
         }
 
         [HttpPost]
@@ -56,7 +61,7 @@ namespace API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid id)
         {
-            var user = await _userRepository.GetByIdAsync(id);
+            var user = await _userRepository.GetDetailAsync(id);
             if (user == null)
             {
                 return NotFound();
@@ -119,7 +124,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/password")]
+        [HttpPatch("{id}/password")]
         public async Task<IActionResult> ChangePasswordAsync(
             [FromRoute] Guid id,
             [FromBody] ChangePasswordRequest request)
@@ -138,7 +143,7 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}/status")]
+        [HttpPatch("{id}/status")]
         public async Task<IActionResult> ChangeStatusAsync(
             [FromRoute] Guid id,
             [FromBody] ChangeUserStatusRequest request)
@@ -150,6 +155,62 @@ namespace API.Controllers
             }
             user.Status = request.Status;
             await _userRepository.UpdateAsync(user, true);
+            return NoContent();
+        }
+
+        [HttpPost("{userId}/address")]
+        public async Task<IActionResult> AddAddressAsync(
+            [FromRoute] Guid userId,
+            [FromBody] CreateAddressUserRequest request)
+        {
+            var user = await _userRepository.AnyAsync(x => x.Id == userId);
+            if (!user)
+            {
+                return NotFound();
+            }
+            var address = request.Adapt<AddressUser>();
+            address.UserId = userId;
+            await _addressUserRepository.AddAsync(address, true);
+            return Created();
+        }
+
+        [HttpPut("{userId}/address/{addressId}")]
+        public async Task<IActionResult> UpdateAddressAsync(
+            [FromRoute] Guid userId,
+            [FromRoute] Guid addressId,
+            [FromBody] UpdateAddressUserRequest request)
+        {
+            var user = await _userRepository.AnyAsync(x => x.Id == userId);
+            if (!user)
+            {
+                return NotFound();
+            }
+            var address = await _addressUserRepository.GetByIdAsync(addressId);
+            if (address == null || address.UserId != userId)
+            {
+                return NotFound();
+            }
+            request.Adapt(address);
+            await _addressUserRepository.UpdateAsync(address, true);
+            return NoContent();
+        }
+
+        [HttpDelete("{userId}/address/{addressId}")]
+        public async Task<IActionResult> DeleteAddressAsync(
+            [FromRoute] Guid userId,
+            [FromRoute] Guid addressId)
+        {
+            var user = await _userRepository.AnyAsync(x => x.Id == userId);
+            if (!user)
+            {
+                return NotFound();
+            }
+            var address = await _addressUserRepository.GetByIdAsync(addressId);
+            if (address == null || address.UserId != userId)
+            {
+                return NotFound();
+            }
+            await _addressUserRepository.DeleteAsync(address, true);
             return NoContent();
         }
     }

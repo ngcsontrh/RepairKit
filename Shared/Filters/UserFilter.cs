@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.Filters
 {
-    public class UserFilter
-    {
-        public int? Offset { get; set; }
-        public int? Limit { get; set; }
+    public class UserFilter : FilterBase
+    {        
         public string? Role { get; set; }
         public string? Status { get; set; }
     }

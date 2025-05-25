@@ -8,7 +8,7 @@ namespace Shared.Entities
 {
     public class User
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.CreateVersion7();
         public string FullName { get; set; } = null!;
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
@@ -22,5 +22,7 @@ namespace Shared.Entities
         public int? ReviewCount { get; set; }
         public string? Bio { get; set; }
         public string? WorkingStatus { get; set; }
+
+        public List<AddressUser>? Addresses { get; set; }
     }
 }

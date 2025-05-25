@@ -8,7 +8,7 @@ namespace Shared.Entities
 {
     public class ServiceDetail
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid ServiceDeviceId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }

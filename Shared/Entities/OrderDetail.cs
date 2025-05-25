@@ -8,7 +8,7 @@ namespace Shared.Entities
 {
     public class OrderDetail
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid OrderId { get; set; }
         public Guid DeviceDetailId { get; set; }
         public string? Description { get; set; }

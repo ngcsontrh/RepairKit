@@ -130,10 +130,10 @@ namespace Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
-                    b.Property<Guid>("OrderId")
+                    b.Property<Guid?>("OrderId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("RepairmanFormId")
+                    b.Property<Guid?>("RepairmanFormId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("Title")
@@ -450,7 +450,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Shared.Entities.AddressUser", b =>
                 {
                     b.HasOne("Shared.Entities.User", "User")
-                        .WithMany()
+                        .WithMany("Addresses")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -503,15 +503,11 @@ namespace Data.Migrations
                 {
                     b.HasOne("Shared.Entities.Order", "Order")
                         .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("OrderId");
 
                     b.HasOne("Shared.Entities.RepairmanForm", "RepairmanForm")
                         .WithMany()
-                        .HasForeignKey("RepairmanFormId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("RepairmanFormId");
 
                     b.Navigation("Order");
 
@@ -633,6 +629,11 @@ namespace Data.Migrations
                     b.Navigation("Notification");
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Shared.Entities.User", b =>
+                {
+                    b.Navigation("Addresses");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,6 +8,20 @@ namespace Data.Interfaces
 {
     public interface IUnitOfWork
     {
+        IUserRepository UserRepository { get; }
+        IAddressUserRepository AddressUserRepository { get; }
+        ICartRepository CartRepository { get; }
+        ICartDetailRepository CartDetailRepository { get; }
+        IDeviceDetailRepository DeviceDetailRepository { get; }
+        INotificationRepository NotificationRepository { get; }
+        IOrderRepository OrderRepository { get; }
+        IOrderDetailRepository OrderDetailRepository { get; }
+        IRepairmanFormRepository RepairmanFormRepository { get; }
+        IServiceRepository ServiceRepository { get; }
+        IServiceDetailRepository ServiceDetailRepository { get; }
+        IServiceDeviceRepository ServiceDeviceRepository { get; }
+        IUserNotificationRepository UserNotificationRepository { get; }
+        
         Task SaveChangesAsync();
     }
 }

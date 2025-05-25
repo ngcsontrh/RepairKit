@@ -31,6 +31,11 @@ namespace Data.Implementations
             if (saveChanges) await _context.SaveChangesAsync();
         }
 
+        public async Task<bool> AnyAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _context.Set<T>().AnyAsync(predicate);
+        }
+
         public async Task DeleteAsync(T entity, bool saveChanges = false)
         {
             _context.Set<T>().Remove(entity);

@@ -8,7 +8,7 @@ namespace Shared.Entities
 {
     public class Cart
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
+        public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid UserId { get; set; }
         public int? Qty { get; set; }
 

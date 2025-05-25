@@ -12,5 +12,6 @@ namespace Data.Interfaces
     {
         public Task<List<User>> GetListWithFilterAsync(UserFilter filter);
         public Task<User?> GetByPhoneAsync(string phone);
+        public Task<User?> GetDetailAsync(Guid id);
     }
 }

@@ -9,6 +9,7 @@ namespace Data.Interfaces
 {
     public interface IRepository<T> where T : class
     {
+        Task<bool> AnyAsync(Expression<Func<T, bool>> predicate);
         Task<T?> GetByIdAsync(Guid id);
         Task AddAsync(T entity, bool saveChanges = false);
         Task AddAsync(IEnumerable<T> entities, bool saveChanges = false);

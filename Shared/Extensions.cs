@@ -18,7 +18,6 @@ namespace Shared
             services.AddFluentValidationAutoValidation();
             services.AddValidatorsFromAssemblyContaining<BaseAssembly>();
             return services;
-        }
-
+        }       
     }
 }

@@ -8,7 +8,7 @@ namespace Shared.Entities
 {
     public class RepairmanFormDetail
     {
-        public Guid Id { get; set; } = Guid.Empty;
+        public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid RepairmanFormId { get; set; }
         public Guid ServiceDeviceId { get; set; }
         public int? YearsOfExperience { get; set; }

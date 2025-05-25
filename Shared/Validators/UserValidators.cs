@@ -71,11 +71,6 @@ namespace Shared.Validations
             RuleFor(x => x.Gender)
                 .Must(g => Constraint.UserGenders.Contains(g))
                 .WithMessage("Giới tính phải là Male, Female hoặc Other");
-
-            RuleFor(x => x.Role)
-                .Must(r => Constraint.UserRoles.Where(x => x != UserRole.Admin.ToString()).Contains(r))
-                .WithMessage("Vai trò phải là Customer, Repairman")
-                .When(x => !string.IsNullOrEmpty(x.Role));
         }
     }
 

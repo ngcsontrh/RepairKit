@@ -8,14 +8,28 @@ using Shared;
 public static class Extensions
 {
     public static IServiceCollection AddDataServices(this IServiceCollection services, string connectionString)
-    {
-        services.AddDbContext<AppDbContext>(options =>
+    {        services.AddDbContext<AppDbContext>(options =>
         {
             options.UseNpgsql(connectionString);
             options.EnableSensitiveDataLogging();
         });
 
+        // Register all repositories
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IAddressUserRepository, AddressUserRepository>();
+        services.AddScoped<ICartRepository, CartRepository>();
+        services.AddScoped<ICartDetailRepository, CartDetailRepository>();
+        services.AddScoped<IDeviceDetailRepository, DeviceDetailRepository>();
+        services.AddScoped<INotificationRepository, NotificationRepository>();
+        services.AddScoped<IOrderRepository, OrderRepository>();
+        services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
+        services.AddScoped<IRepairmanFormRepository, RepairmanFormRepository>();
+        services.AddScoped<IServiceRepository, ServiceRepository>();
+        services.AddScoped<IServiceDetailRepository, ServiceDetailRepository>();
+        services.AddScoped<IServiceDeviceRepository, ServiceDeviceRepository>();
+        services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
+        
+        // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
