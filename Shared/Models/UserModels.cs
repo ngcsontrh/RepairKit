@@ -78,4 +78,9 @@ namespace Shared.Models
     {
         public string? Status { get; set; }
     }
+
+    public class ChangeUserRoleRequest
+    {
+        public string? Role { get; set; }
+    }
 }

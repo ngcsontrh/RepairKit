@@ -158,6 +158,21 @@ namespace API.Controllers
             return NoContent();
         }
 
+        [HttpPatch("{id}/role")]
+        public async Task<IActionResult> ChangeRoleAsync(
+            [FromRoute] Guid id,
+            [FromBody] ChangeUserRoleRequest request)
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.Role = request.Role;
+            await _userRepository.UpdateAsync(user, true);
+            return NoContent();
+        }
+
         [HttpPost("{userId}/address")]
         public async Task<IActionResult> AddAddressAsync(
             [FromRoute] Guid userId,

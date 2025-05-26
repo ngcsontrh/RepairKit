@@ -14,6 +14,7 @@ namespace Shared
     {
         public static void AddMapsterConfiguration(this IServiceCollection services)
         {
+            TypeAdapterConfig.GlobalSettings.Default.IgnoreNullValues(true);
         }
     }
 }

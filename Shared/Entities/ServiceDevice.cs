@@ -14,5 +14,6 @@ namespace Shared.Entities
         public string? Description { get; set; }
 
         public Service? Service { get; set; }
+        public List<ServiceDetail>? ServiceDetails { get; set; }
     }
 }

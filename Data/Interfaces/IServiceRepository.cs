@@ -9,5 +9,6 @@ namespace Data.Interfaces
 {
     public interface IServiceRepository : IRepository<Service>
     {
+        Task<Service?> GetDetailAsync(Guid id);
     }
 }

@@ -10,9 +10,10 @@ namespace Shared.Entities
     {
         public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid UserId { get; set; }
-        public string? Status { get; set; }
+        public string? Status { get; set; } = RepairmanFormStatus.Processing.ToString();
         public string? Areas { get; set; }
 
         public User? User { get; set; }
+        public RepairmanFormDetail? Detail { get; set; }
     }
 }

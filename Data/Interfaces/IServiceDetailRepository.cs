@@ -9,5 +9,6 @@ namespace Data.Interfaces
 {
     public interface IServiceDetailRepository : IRepository<ServiceDetail>
     {
+        Task<(List<ServiceDetail>, int)> GetPageByServiceDeviceIdAsync(Guid serviceDeviceId, int offset = 0, int limit = 10);
     }
 }

@@ -39,4 +39,11 @@ namespace Shared
         Order,
         Register
     }
+
+    public enum RepairmanFormStatus
+    {
+        Processing,
+        Canceled,
+        Accepted,
+    }
 }

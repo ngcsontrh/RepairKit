@@ -9,5 +9,6 @@ namespace Data.Interfaces
 {
     public interface IRepairmanFormRepository : IRepository<RepairmanForm>
     {
+        Task<RepairmanForm?> GetDetailAsync(Guid id);
     }
 }

@@ -11,5 +11,7 @@ namespace Shared.Entities
         public Guid Id { get; set; } = Guid.CreateVersion7();
         public string? Name { get; set; }
         public string? Description { get; set; }
+
+        public List<ServiceDevice>? ServiceDevices { get; set; }
     }
 }

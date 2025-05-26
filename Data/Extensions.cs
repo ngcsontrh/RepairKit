@@ -24,11 +24,12 @@ public static class Extensions
         services.AddScoped<IOrderRepository, OrderRepository>();
         services.AddScoped<IOrderDetailRepository, OrderDetailRepository>();
         services.AddScoped<IRepairmanFormRepository, RepairmanFormRepository>();
+        services.AddScoped<IRepairmanFormDetailRepository, RepairmanFormDetailRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
         services.AddScoped<IServiceDetailRepository, ServiceDetailRepository>();
         services.AddScoped<IServiceDeviceRepository, ServiceDeviceRepository>();
-        services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();
-        
+        services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();        
+
         // Register UnitOfWork
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

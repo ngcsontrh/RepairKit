@@ -48,9 +48,36 @@ namespace Data.Implementations
             if (saveChanges) await _context.SaveChangesAsync();
         }
 
+        public async Task ExecuteDeleteAsync(Expression<Func<T, bool>> predicate)
+        {
+            await _context.Set<T>()
+                .Where(predicate)
+                .ExecuteDeleteAsync();
+        }
+
         public async Task<T?> GetByIdAsync(Guid id)
         {
             return await _context.Set<T>().FindAsync(id);
+        }
+
+        public async Task<List<Guid>> GetIdsAsync(Expression<Func<T, bool>> predicate)
+        {
+            var ids = await _context.Set<T>()
+                .Where(predicate)
+                .Select(x => EF.Property<Guid>(x, "Id"))
+                .ToListAsync();
+            return ids;
+        }
+
+        public async Task<(List<T>, int)> GetPageAsync(int offset = 0, int limit = 10)
+        {
+            var entities = await _context.Set<T>()
+                .Skip(offset)
+                .Take(limit)
+                .OrderBy(x => EF.Property<Guid>(x, "Id"))
+                .ToListAsync();
+            var totalCount = await _context.Set<T>().CountAsync();
+            return (entities, totalCount);
         }
 
         public async Task UpdateAsync(T entity, bool saveChanges = false)
