@@ -23,7 +23,7 @@ namespace Shared.Validators
     {
         public MarkNotificationAsReadRequestValidator()
         {
-            RuleFor(x => x.Ids)
+            RuleFor(x => x.NotificationIds)
                 .NotEmpty().WithMessage("Notification IDs are required.")
                 .Must(ids => ids?.Count > 0).WithMessage("At least one notification ID is required.");
         }
