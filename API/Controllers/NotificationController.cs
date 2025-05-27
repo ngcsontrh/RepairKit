@@ -21,7 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet("user/{userId}")]
-        public async Task<IActionResult> GetUserNotificationsAsync(
+        public async Task<IActionResult> GetUserNotificationsAsync(            
             [FromRoute] Guid userId,
             [FromQuery] UserNotificationFilter filter
             )
@@ -37,7 +37,7 @@ namespace API.Controllers
         [HttpPost("user/{userId}/read")]
         public async Task<IActionResult> MarkNotificationAsReadAsync([FromRoute] Guid userId, [FromBody] MarkNotificationAsReadRequest request)
         {
-            await _unitOfWork.UserNotificationRepository.MarkNotificationAsReadAsync(userId, request.Ids!);
+            await _unitOfWork.UserNotificationRepository.MarkNotificationAsReadAsync(userId, request.NotificationIds!);
             return NoContent();
         }
 
@@ -49,7 +49,7 @@ namespace API.Controllers
                 Description = request.Description,
                 Title = request.Title,
                 Type = NotificationType.System.ToString(),
-            };           
+            };
             var userNotification = request.UserIds!.Select(userId => new UserNotification
             {
                 UserId = userId,
@@ -63,18 +63,12 @@ namespace API.Controllers
             return Created();
         }
 
-        [HttpPost("order/{orderId}")]
+        [HttpPost("order")]
         public async Task<IActionResult> CreateOrderNotificationAsync(
-            [FromRoute] Guid orderId,
-            [FromBody] CreateNotificationRequest request)
+            [FromBody] CreateOrderNotificationRequest request)
         {
-            var notification = new Shared.Entities.Notification
-            {
-                OrderId = orderId,
-                Description = request.Description,
-                Title = request.Title,
-                Type = NotificationType.Order.ToString(),
-            };
+            var notification = request.Adapt<Notification>();
+            notification.Type = NotificationType.Order.ToString();
             var userNotification = request.UserIds!.Select(userId => new UserNotification
             {
                 UserId = userId,
@@ -88,18 +82,12 @@ namespace API.Controllers
             return Created();
         }
 
-        [HttpPost("register/{repairmanFormId}")]
+        [HttpPost("register")]
         public async Task<IActionResult> CreateRepairmanFormNotificationAsync(
-            [FromRoute] Guid repairmanFormId, 
-            [FromBody] CreateNotificationRequest request)
-        {            
-            var notification = new Shared.Entities.Notification
-            {
-                RepairmanFormId = repairmanFormId,
-                Description = request.Description,
-                Title = request.Title,
-                Type = NotificationType.Register.ToString(),
-            };
+            [FromBody] CreateRepairmanFormNotificationRequest request)
+        {
+            var notification = request.Adapt<Notification>();
+            notification.Type = NotificationType.Register.ToString();
             var userNotification = request.UserIds!.Select(userId => new UserNotification
             {
                 UserId = userId,

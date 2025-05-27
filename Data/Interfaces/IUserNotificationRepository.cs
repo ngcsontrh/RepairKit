@@ -11,6 +11,6 @@ namespace Data.Interfaces
     public interface IUserNotificationRepository : IRepository<UserNotification>
     {
         Task<(List<UserNotification>, int)> GetNotificationPageByFilterAsync(Guid userId, UserNotificationFilter filter);
-        Task MarkNotificationAsReadAsync(Guid userId, List<Guid> ids);
+        Task MarkNotificationAsReadAsync(Guid userId, List<Guid> notificationIds);
     }
 }

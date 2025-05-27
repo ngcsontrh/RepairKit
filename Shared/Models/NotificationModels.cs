@@ -24,8 +24,18 @@ namespace Shared.Models
         public string? Description { get; set; }
     }
 
+    public class CreateOrderNotificationRequest : CreateNotificationRequest
+    {
+        public Guid? OrderId { get; set; }
+    }
+
+    public class CreateRepairmanFormNotificationRequest : CreateNotificationRequest
+    {
+        public Guid? RepairmanFormId { get; set; }
+    }
+
     public class MarkNotificationAsReadRequest
     {
-        public List<Guid>? Ids { get; set; }
+        public List<Guid>? NotificationIds { get; set; }
     }
 }

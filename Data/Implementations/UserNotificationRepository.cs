@@ -31,10 +31,10 @@ namespace Data.Implementations
             return (entities, totalCount);
         }
 
-        public async Task MarkNotificationAsReadAsync(Guid userId, List<Guid> ids)
+        public async Task MarkNotificationAsReadAsync(Guid userId, List<Guid> notificationIds)
         {
             await _context.UserNotifications
-                .Where(x => x.UserId == userId && ids.Contains(x.Id))
+                .Where(x => x.UserId == userId && notificationIds.Contains(x.NotificationId))
                 .ExecuteUpdateAsync(x => x.SetProperty(n => n.IsRead, true)
                                             .SetProperty(n => n.ReadAt, DateTime.UtcNow));
         }
