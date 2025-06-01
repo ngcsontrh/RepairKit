@@ -1,4 +1,5 @@
 ﻿using Shared.Entities;
+using Shared.Filters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,6 @@ namespace Data.Interfaces
 {
     public interface IDeviceDetailRepository : IRepository<Shared.Entities.DeviceDetail>
     {
-        Task<(List<DeviceDetail>, int)> GetPageByServiceDeviceIdAsync(Guid serviceDeviceId, int offset = 0, int limit = 10);
+        Task<(List<DeviceDetail>, int)> GetListWithFilterAsync(DeviceDetailFilter filter);
     }
 }

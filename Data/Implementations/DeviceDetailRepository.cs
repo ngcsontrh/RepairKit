@@ -2,6 +2,7 @@ using Data.Config;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
+using Shared.Filters;
 
 namespace Data.Implementations
 {
@@ -11,15 +12,22 @@ namespace Data.Implementations
         {
         }
 
-        public async Task<(List<DeviceDetail>, int)> GetPageByServiceDeviceIdAsync(Guid serviceDeviceId, int offset = 0, int limit = 10)
+        public async Task<(List<DeviceDetail>, int)> GetListWithFilterAsync(DeviceDetailFilter filter)
         {
-            var entities = await _context.DeviceDetails
-                .Where(x => x.ServiceDeviceId == serviceDeviceId)
-                .Skip(offset)
-                .Take(limit)
+            var query = _context.DeviceDetails.AsQueryable();
+
+            if (filter.ServiceDeviceId.HasValue)
+            {
+                query = query.Where(dd => dd.ServiceDeviceId == filter.ServiceDeviceId.Value);
+            }
+
+            var entities = await query
+                .Skip(filter.Offset)
+                .Take(filter.Limit)
                 .ToListAsync();
-            var total = await _context.DeviceDetails.CountAsync(x => x.ServiceDeviceId == serviceDeviceId);
-            return (entities, total);
+
+            var totalCount = await query.CountAsync();
+            return (entities, totalCount);
         }
     }
 }

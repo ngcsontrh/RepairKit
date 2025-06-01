@@ -1,7 +1,8 @@
-using Data.Config;
+﻿using Data.Config;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Shared.Entities;
+using Shared.Filters;
 
 namespace Data.Implementations
 {
@@ -11,25 +12,25 @@ namespace Data.Implementations
         {
         }
 
-        public async Task<ServiceDevice?> GetDetailAsync(Guid id)
+        public async Task<(List<ServiceDevice> ServiceDevices, int TotalCount)> GetListWithFilterAsync(ServiceDeviceFilter filter)
         {
-            var entity = await _context.ServiceDevices
-                .Where(sd => sd.Id == id)
-                .Include(sd => sd.DeviceDetails)
-                .FirstOrDefaultAsync();
-            return entity;
+            var query = _context.ServiceDevices.AsQueryable();
+
+            if (filter.ServiceId.HasValue)
+            {
+                query = query.Where(x => x.ServiceId == filter.ServiceId.Value);
+            }
+
+            var totalCount = await query.CountAsync();
+
+            var entities = await query                
+                .Skip(filter.Offset)
+                .Take(filter.Limit)
+                .OrderBy(x => x.Id)
+                .ToListAsync();
+
+            return (entities, totalCount);
         }
 
-        public async Task<(List<ServiceDevice>, int)> GetPageByServiceIdAsync(Guid serviceId, int offset = 0, int limit = 10)
-        {
-            var entities = await _context.ServiceDevices
-                .Where(sd => sd.ServiceId == serviceId)
-                .OrderBy(sd => sd.Id)
-                .Skip(offset)
-                .Take(limit)
-                .ToListAsync();
-            var total = await _context.ServiceDevices.CountAsync(sd => sd.ServiceId == serviceId);
-            return (entities, total);
-        }
     }
 }

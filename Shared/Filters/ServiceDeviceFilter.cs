@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.Filters
 {
-    public class FilterBase
+    public class ServiceDeviceFilter : FilterBase
     {
-        public int Offset { get; set; } = 0;
-        public int Limit { get; set; } = 10;
+        public Guid? ServiceId { get; set; }
     }
 }

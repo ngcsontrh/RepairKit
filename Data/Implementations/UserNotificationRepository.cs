@@ -17,12 +17,10 @@ namespace Data.Implementations
             var query = _context.UserNotifications.AsQueryable();
 
             query = query.Where(x => x.UserId == userId);
-            if (filter.Offset.HasValue && filter.Limit.HasValue)
-            {
-                query = query.Skip(filter.Offset.Value).Take(filter.Limit.Value);
-            }
 
             var entities = await query
+                .Skip(filter.Offset)
+                .Take(filter.Limit)
                 .Include(x => x.Notification)
                 .OrderBy(x => x.Id)
                 .ToListAsync();

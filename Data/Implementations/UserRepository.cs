@@ -51,12 +51,6 @@ namespace Data.Implementations
             {
                 query = query.Where(x => x.Status == filter.Status);
             }
-            if (filter.Offset.HasValue && filter.Limit.HasValue)
-            {
-                query = query
-                    .Skip(filter.Offset.Value)
-                    .Take(filter.Limit.Value);
-            }
             return query;
         }
     }
