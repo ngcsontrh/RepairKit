@@ -16,7 +16,7 @@ namespace Data.Implementations
             var service = await _context.Services
                 .Where(s => s.Id == id)
                 .Include(s => s.ServiceDevices!)
-                    .ThenInclude(sd => sd.ServiceDetails!)
+                    .ThenInclude(sd => sd.DeviceDetails!)
                 .FirstOrDefaultAsync(s => s.Id == id);
             return service;
         }

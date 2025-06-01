@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -20,12 +21,16 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        [HttpGet("user/{userId}")]
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetUserNotificationsAsync(            
-            [FromRoute] Guid userId,
             [FromQuery] UserNotificationFilter filter
             )
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))
+            {
+                return Unauthorized("User ID not found or invalid.");
+            }
             var notifications = await _unitOfWork.UserNotificationRepository.GetNotificationPageByFilterAsync(userId, filter);
             return Ok(new PageData<UserNotificationDto>
             {
@@ -34,14 +39,20 @@ namespace API.Controllers
             });
         }
 
-        [HttpPost("user/{userId}/read")]
-        public async Task<IActionResult> MarkNotificationAsReadAsync([FromRoute] Guid userId, [FromBody] MarkNotificationAsReadRequest request)
+        [HttpPost("read")]
+        [Authorize]
+        public async Task<IActionResult> MarkNotificationAsReadAsync([FromBody] MarkNotificationAsReadRequest request)
         {
+            if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))
+            {
+                return Unauthorized("User ID not found or invalid.");
+            }
             await _unitOfWork.UserNotificationRepository.MarkNotificationAsReadAsync(userId, request.NotificationIds!);
             return NoContent();
         }
 
         [HttpPost("system")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSystemNotificationAsync([FromBody] CreateNotificationRequest request)
         {
             var notification = new Shared.Entities.Notification
@@ -64,6 +75,7 @@ namespace API.Controllers
         }
 
         [HttpPost("order")]
+        [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> CreateOrderNotificationAsync(
             [FromBody] CreateOrderNotificationRequest request)
         {
@@ -83,6 +95,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRepairmanFormNotificationAsync(
             [FromBody] CreateRepairmanFormNotificationRequest request)
         {

@@ -17,8 +17,9 @@ namespace Data.Interfaces
         Task DeleteAsync(IEnumerable<T> entities, bool saveChanges = false);
         Task UpdateAsync(T entity, bool saveChanges = false);
         Task UpdateAsync(IEnumerable<T> entities, bool saveChanges = false);
-        Task<(List<T>, int)> GetPageAsync(int offset = 0, int limit = 10);
+        Task<(List<T>, int)> GetPageAsync(int offset = 0, int limit = 10, Expression<Func<T, bool>>? predicate = null);
         Task<List<Guid>> GetIdsAsync(Expression<Func<T, bool>> predicate);
         Task ExecuteDeleteAsync(Expression<Func<T, bool>> predicate);
+        Task SaveChangesAsync();
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,5 @@ namespace Shared.Entities
 
         public Order? Order { get; set; }
         public DeviceDetail? DeviceDetail { get; set; }
-    }
+    }    
 }

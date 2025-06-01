@@ -21,10 +21,6 @@ namespace Shared.Validations
     {
         public ChangePasswordValidator()
         {
-            RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
-
             RuleFor(x => x.OldPassword)
                 .NotEmpty().WithMessage("Vui lòng nhập mật khẩu cũ.");
 

@@ -2,6 +2,7 @@
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared;
 using Shared.Entities;
 using Shared.Models;
 
@@ -92,7 +93,17 @@ namespace API.Controllers
                 return NotFound();
             }
             repairmanForm.Status = request.Status;
-            await _unitOfWork.RepairmanFormRepository.UpdateAsync(repairmanForm, true);
+
+            if (request.Status == RepairmanFormStatus.Accepted.ToString())
+            {
+                var user = await _unitOfWork.UserRepository.GetByIdAsync(repairmanForm.UserId);
+                if (user == null)
+                {
+                    return NotFound("User not found for the repairman form.");
+                }
+                user.Role = UserRole.Repairman.ToString();                
+            }
+            await _unitOfWork.SaveChangesAsync();
             return NoContent();
         }
     }

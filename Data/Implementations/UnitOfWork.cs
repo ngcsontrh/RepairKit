@@ -24,7 +24,6 @@ namespace Data.Implementations
         public IOrderDetailRepository OrderDetailRepository { get; }
         public IRepairmanFormRepository RepairmanFormRepository { get; }
         public IServiceRepository ServiceRepository { get; }
-        public IServiceDetailRepository ServiceDetailRepository { get; }
         public IServiceDeviceRepository ServiceDeviceRepository { get; }
         public IUserNotificationRepository UserNotificationRepository { get; }
         public IRepairmanFormDetailRepository RepairmanFormDetailRepository { get; }
@@ -41,7 +40,6 @@ namespace Data.Implementations
             IOrderDetailRepository orderDetailRepository,
             IRepairmanFormRepository repairmanFormRepository,
             IServiceRepository serviceRepository,
-            IServiceDetailRepository serviceDetailRepository,
             IServiceDeviceRepository serviceDeviceRepository,
             IUserNotificationRepository userNotificationRepository,
             IRepairmanFormDetailRepository repairmanFormDetailRepository)
@@ -57,7 +55,6 @@ namespace Data.Implementations
             OrderDetailRepository = orderDetailRepository;
             RepairmanFormRepository = repairmanFormRepository;
             ServiceRepository = serviceRepository;
-            ServiceDetailRepository = serviceDetailRepository;
             ServiceDeviceRepository = serviceDeviceRepository;
             UserNotificationRepository = userNotificationRepository;
             RepairmanFormDetailRepository = repairmanFormDetailRepository;

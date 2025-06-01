@@ -26,7 +26,6 @@ public static class Extensions
         services.AddScoped<IRepairmanFormRepository, RepairmanFormRepository>();
         services.AddScoped<IRepairmanFormDetailRepository, RepairmanFormDetailRepository>();
         services.AddScoped<IServiceRepository, ServiceRepository>();
-        services.AddScoped<IServiceDetailRepository, ServiceDetailRepository>();
         services.AddScoped<IServiceDeviceRepository, ServiceDeviceRepository>();
         services.AddScoped<IUserNotificationRepository, UserNotificationRepository>();        
 
@@ -43,12 +42,18 @@ public static class Extensions
 
         if (!context.Users.Any(u => u.Role == UserRole.Admin.ToString()))
         {
-            context.Users.Add(new Shared.Entities.User
+            var admin = new Shared.Entities.User
             {
                 FullName = "Admin",
                 Phone = "1234567890",
                 Password = PasswordHelper.HashPassword("admin"),
                 Role = UserRole.Admin.ToString(),
+            };
+            context.Users.Add(admin);
+            context.Carts.Add(new Shared.Entities.Cart
+            {
+                UserId = admin.Id,
+                Qty = 0
             });
             context.SaveChanges();
         }

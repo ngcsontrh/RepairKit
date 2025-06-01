@@ -9,5 +9,6 @@ namespace Data.Interfaces
 {
     public interface ICartDetailRepository : IRepository<CartDetail>
     {
+        Task<CartDetail?> GetByCartAndServiceDeviceAsync(Guid cartId, Guid serviceDeviceId);
     }
 }

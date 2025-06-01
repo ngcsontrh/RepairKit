@@ -13,7 +13,7 @@ namespace Shared.Models
         public Guid? ServiceId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
-        public List<ServiceDetailDto>? ServiceDetails { get; set; }
+        public List<DeviceDetailDto>? DeviceDetails { get; set; }
     }
 
     public class CreateServiceDeviceRequest

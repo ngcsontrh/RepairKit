@@ -13,5 +13,7 @@ namespace Shared.Entities
         public int? Qty { get; set; }
 
         public User? User { get; set; }
+
+        public List<CartDetail>? CartDetails { get; set; }
     }
 }

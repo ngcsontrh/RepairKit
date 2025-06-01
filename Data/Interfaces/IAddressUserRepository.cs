@@ -9,5 +9,7 @@ namespace Data.Interfaces
 {
     public interface IAddressUserRepository : IRepository<AddressUser>
     {
+        Task<List<AddressUser>> GetByUserIdAsync(Guid userId);
+        Task UpdateMainAddressAsync(Guid userId, Guid addressId);
     }
 }

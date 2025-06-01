@@ -18,8 +18,7 @@ namespace Data.Interfaces
         IOrderDetailRepository OrderDetailRepository { get; }
         IRepairmanFormRepository RepairmanFormRepository { get; }
         IRepairmanFormDetailRepository RepairmanFormDetailRepository { get; }
-        IServiceRepository ServiceRepository { get; }
-        IServiceDetailRepository ServiceDetailRepository { get; }
+        IServiceRepository ServiceRepository { get; }        
         IServiceDeviceRepository ServiceDeviceRepository { get; }
         IUserNotificationRepository UserNotificationRepository { get; }
 

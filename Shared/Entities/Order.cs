@@ -28,5 +28,6 @@ namespace Shared.Entities
         public AddressUser? Address { get; set; }
         public User? Customer { get; set; }
         public User? Repairman { get; set; }
+        public List<OrderDetail>? OrderDetails { get; set; }
     }
 }

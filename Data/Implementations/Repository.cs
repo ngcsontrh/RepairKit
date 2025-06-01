@@ -69,15 +69,22 @@ namespace Data.Implementations
             return ids;
         }
 
-        public async Task<(List<T>, int)> GetPageAsync(int offset = 0, int limit = 10)
+        public async Task<(List<T>, int)> GetPageAsync(int offset = 0, int limit = 10, Expression<Func<T, bool>>? predicate = null)
         {
-            var entities = await _context.Set<T>()
+            predicate ??= x => true;
+            var query = _context.Set<T>().Where(predicate);
+            var entities = await query
                 .Skip(offset)
                 .Take(limit)
                 .OrderBy(x => EF.Property<Guid>(x, "Id"))
                 .ToListAsync();
-            var totalCount = await _context.Set<T>().CountAsync();
+            var totalCount = await query.CountAsync();
             return (entities, totalCount);
+        }
+
+        public async Task SaveChangesAsync()
+        {
+            await _context.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(T entity, bool saveChanges = false)

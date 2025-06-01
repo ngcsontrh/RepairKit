@@ -21,7 +21,6 @@ namespace Data.Config
         public DbSet<RepairmanForm> RepairmanForms { get; set; }
         public DbSet<RepairmanFormDetail> RepairmanFormDetails { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<ServiceDetail> ServiceDetails { get; set; }
         public DbSet<ServiceDevice> ServiceDevices { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserNotification> UserNotifications { get; set; }
@@ -40,6 +39,14 @@ namespace Data.Config
                 entity.Property(e => e.Phone).IsRequired().HasMaxLength(20);
                 entity.HasIndex(e => e.Phone).IsUnique();
                 entity.Property(e => e.Password).IsRequired();
+            });
+
+            modelBuilder.Entity<Cart>(entity =>
+            {
+                entity.HasOne(c => c.User)
+                    .WithOne()
+                    .HasForeignKey<Cart>(c => c.UserId)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
         }
     }

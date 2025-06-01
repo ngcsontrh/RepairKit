@@ -3,6 +3,7 @@ using System;
 using Data.Config;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250527103634_MigrateT")]
+    partial class MigrateT
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -67,8 +70,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Carts");
                 });
@@ -438,8 +440,8 @@ namespace Data.Migrations
             modelBuilder.Entity("Shared.Entities.Cart", b =>
                 {
                     b.HasOne("Shared.Entities.User", "User")
-                        .WithOne()
-                        .HasForeignKey("Shared.Entities.Cart", "UserId")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -449,7 +451,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Shared.Entities.CartDetail", b =>
                 {
                     b.HasOne("Shared.Entities.Cart", "Cart")
-                        .WithMany("CartDetails")
+                        .WithMany()
                         .HasForeignKey("CartId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -595,11 +597,6 @@ namespace Data.Migrations
                     b.Navigation("Notification");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Shared.Entities.Cart", b =>
-                {
-                    b.Navigation("CartDetails");
                 });
 
             modelBuilder.Entity("Shared.Entities.Order", b =>

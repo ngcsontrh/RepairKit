@@ -15,7 +15,7 @@ namespace Data.Implementations
         {
             var entity = await _context.ServiceDevices
                 .Where(sd => sd.Id == id)
-                .Include(sd => sd.ServiceDetails)
+                .Include(sd => sd.DeviceDetails)
                 .FirstOrDefaultAsync();
             return entity;
         }

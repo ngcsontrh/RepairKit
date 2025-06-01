@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -7,6 +8,7 @@ using Shared.Entities;
 using Shared.Filters;
 using Shared.Models;
 using System.IO;
+using System.Security.Claims;
 
 namespace API.Controllers
 {
@@ -16,14 +18,17 @@ namespace API.Controllers
     {
         private readonly IUserRepository _userRepository;
         private readonly IAddressUserRepository _addressUserRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
         public UserController(
             IUserRepository userRepository,
-            IAddressUserRepository addressUserRepository
+            IAddressUserRepository addressUserRepository,
+            IUnitOfWork unitOfWork
             )
         {
             _userRepository = userRepository;
             _addressUserRepository = addressUserRepository;
+            _unitOfWork = unitOfWork;
         }
 
         [HttpPost]
@@ -54,11 +59,17 @@ namespace API.Controllers
                 user.Avatar = $"/uploads/avatars/{fileName}";
             }
 
-            await _userRepository.AddAsync(user, true);
+            await _unitOfWork.UserRepository.AddAsync(user, true);
+            await _unitOfWork.CartRepository.AddAsync(new Cart
+            {
+                UserId = user.Id,
+                Qty = 0
+            }, true);
             return Created();
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid id)
         {
             var user = await _userRepository.GetDetailAsync(id);
@@ -70,6 +81,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetListUserAsync([FromQuery] UserFilter request)
         {
             var users = await _userRepository.GetListWithFilterAsync(request);
@@ -77,10 +89,18 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> UpdateUserAsync(
             [FromRoute] Guid id,
             [FromForm] UpdateUserRequest request)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != id.ToString())
+            {
+                return Forbid("You do not have permission to update this user.");
+            }
+
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
@@ -113,28 +133,37 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id)
         {
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
-            }
+            }            
             await _userRepository.DeleteAsync(user, true);
             return NoContent();
-        }
+        }        
 
         [HttpPatch("{id}/password")]
+        [Authorize]
         public async Task<IActionResult> ChangePasswordAsync(
             [FromRoute] Guid id,
             [FromBody] ChangePasswordRequest request)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != id.ToString())
+            {
+                return Forbid("You do not have permission to change this user's password.");
+            }
+
             var user = await _userRepository.GetByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-            if (user.Email != request.Email || PasswordHelper.VerifyPassword(request.OldPassword!, user.Password))
+            if (!PasswordHelper.VerifyPassword(request.OldPassword!, user.Password))
             {
                 return BadRequest("Invalid email or password.");
             }
@@ -144,6 +173,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}/status")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatusAsync(
             [FromRoute] Guid id,
             [FromBody] ChangeUserStatusRequest request)
@@ -159,6 +189,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}/role")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRoleAsync(
             [FromRoute] Guid id,
             [FromBody] ChangeUserRoleRequest request)
@@ -173,28 +204,69 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpPost("{userId}/address")]
-        public async Task<IActionResult> AddAddressAsync(
-            [FromRoute] Guid userId,
-            [FromBody] CreateAddressUserRequest request)
+        [HttpGet("{userId}/address")]
+        [Authorize]
+        public async Task<IActionResult> GetAddressAsync([FromRoute] Guid userId)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != userId.ToString())
+            {
+                return Forbid("You do not have permission to view this user's address.");
+            }
             var user = await _userRepository.AnyAsync(x => x.Id == userId);
             if (!user)
             {
                 return NotFound();
             }
+            var addresses = await _addressUserRepository.GetByUserIdAsync(userId);
+            return Ok(addresses.Adapt<List<AddressUserDto>>());
+        }
+
+        [HttpPost("{userId}/address")]
+        [Authorize]
+        public async Task<IActionResult> AddAddressAsync(
+            [FromRoute] Guid userId,
+            [FromBody] CreateAddressUserRequest request)
+        {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != userId.ToString())
+            {
+                return Forbid("You do not have permission to add an address for this user.");
+            }
+
+            var user = await _userRepository.AnyAsync(x => x.Id == userId);
+            if (!user)
+            {
+                return NotFound();
+            }
+
             var address = request.Adapt<AddressUser>();
             address.UserId = userId;
             await _addressUserRepository.AddAsync(address, true);
+
+            if (request.AddressMain == true)
+            {
+                await _addressUserRepository.UpdateMainAddressAsync(userId, address.Id);
+            }            
             return Created();
         }
 
         [HttpPut("{userId}/address/{addressId}")]
+        [Authorize]
         public async Task<IActionResult> UpdateAddressAsync(
             [FromRoute] Guid userId,
             [FromRoute] Guid addressId,
             [FromBody] UpdateAddressUserRequest request)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != userId.ToString())
+            {
+                return Forbid("You do not have permission to update this user's address.");
+            }
+
             var user = await _userRepository.AnyAsync(x => x.Id == userId);
             if (!user)
             {
@@ -211,10 +283,17 @@ namespace API.Controllers
         }
 
         [HttpDelete("{userId}/address/{addressId}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAddressAsync(
             [FromRoute] Guid userId,
             [FromRoute] Guid addressId)
         {
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            bool isAdmin = User.IsInRole("Admin");
+            if (!isAdmin && currentUserId != userId.ToString())
+            {
+                return Forbid("You do not have permission to delete this user's address.");
+            }
             var user = await _userRepository.AnyAsync(x => x.Id == userId);
             if (!user)
             {
