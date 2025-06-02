@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Shared.Filters
 {
-    public class OrderFilter
+    public class OrderFilter : FilterBase
     {
         public Guid? CustomerId { get; set; }
         public Guid? RepairmanId { get; set; }

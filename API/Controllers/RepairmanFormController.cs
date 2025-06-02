@@ -99,7 +99,7 @@ namespace API.Controllers
                 var user = await _unitOfWork.UserRepository.GetByIdAsync(repairmanForm.UserId);
                 if (user == null)
                 {
-                    return NotFound("User not found for the repairman form.");
+                    return BadRequest("User not found for the repairman form.");
                 }
                 user.Role = UserRole.Repairman.ToString();                
             }

@@ -46,4 +46,12 @@ namespace Shared
         Canceled,
         Accepted,
     }
+
+    public enum OrderStatus
+    {
+        Pending,
+        InProgress,
+        Completed,
+        Canceled
+    }
 }

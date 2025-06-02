@@ -24,8 +24,8 @@ namespace Shared.Models
     {
         public Guid? DeviceDetailId { get; set; }
         public string? Description { get; set; }
-        public IFormFile? VideoFile { get; set; }
-        public IFormFile? ImageFile { get; set; }
+        public string? VideoFile { get; set; }
+        public string? ImageFile { get; set; }
         public int? MinPrice { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace Data.Interfaces
 {
     public interface IOrderRepository : IRepository<Order>
     {
-        Task<(List<Order>, int)> GetPageByFilterAsync(OrderFilter filter, int offset = 0, int limit = 10);
+        Task<(List<Order>, int)> GetPageByFilterAsync(OrderFilter filter);
         Task<Order?> GetDetailAsync(Guid id);
     }
 }

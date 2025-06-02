@@ -16,9 +16,6 @@ namespace Data.Implementations
         {
             var order = await _context.Orders
                 .Where(o => o.Id == id)
-                .Include(o => o.Customer!)
-                .Include(o => o.Repairman!)
-                .Include(o => o.Address!)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
 
@@ -26,16 +23,14 @@ namespace Data.Implementations
 
             order.OrderDetails = await _context.OrderDetails
                 .Where(od => od.OrderId == order.Id)
-                .Include(od => od.DeviceDetail!)
-                    .ThenInclude(dd => dd.ServiceDevice!)
-                        .ThenInclude(sd => sd.Service!)
+                .Include(od => od.DeviceDetail!)                    
                 .AsNoTracking()
                 .ToListAsync();
 
             return order;
         }
 
-        public async Task<(List<Order>, int)> GetPageByFilterAsync(OrderFilter filter, int offset = 0, int limit = 10)
+        public async Task<(List<Order>, int)> GetPageByFilterAsync(OrderFilter filter)
         {
             var query = _context.Orders.AsQueryable();
             if (filter.CustomerId.HasValue)
@@ -56,11 +51,8 @@ namespace Data.Implementations
             }
             var entities = await query
                 .OrderBy(o => o.Id)
-                .Skip(offset)
-                .Take(limit)
-                .Include(o => o.Customer)                    
-                .Include(o => o.Repairman)
-                .Include(o => o.Address)
+                .Skip(filter.Offset)
+                .Take(filter.Limit)
                 .AsNoTracking()
                 .ToListAsync();
             var total = await query.CountAsync();

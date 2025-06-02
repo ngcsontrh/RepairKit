@@ -11,7 +11,7 @@ namespace Shared.Entities
         public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid AddressId { get; set; }
         public Guid CustomerId { get; set; }
-        public Guid RepairmanId { get; set; }
+        public Guid? RepairmanId { get; set; }
         public string? Status { get; set; }
         public DateTime? RepairDate { get; set; }
         public DateTime? RepairCompleted { get; set; }

@@ -16,6 +16,8 @@ namespace Shared.Models
         public string? Ward { get; set; }
         public string? City { get; set; }
         public string? District { get; set; }
+        public string? FullName { get; set; }
+        public string? Phone { get; set; }
     }
 
     public class CreateAddressUserRequest
@@ -25,6 +27,8 @@ namespace Shared.Models
         public string? Ward { get; set; }
         public string? City { get; set; }
         public string? District { get; set; }
+        public string? FullName { get; set; }
+        public string? Phone { get; set; }
     }
 
     public class UpdateAddressUserRequest
@@ -34,5 +38,7 @@ namespace Shared.Models
         public string? Ward { get; set; }
         public string? City { get; set; }
         public string? District { get; set; }
+        public string? FullName { get; set; }
+        public string? Phone { get; set; }
     }
 }
