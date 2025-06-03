@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Shared;
+using Shared.ConfigurationSettings;
 
 var builder = WebApplication.CreateBuilder(args);
 

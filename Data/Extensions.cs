@@ -4,6 +4,7 @@ using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Shared;
+using Shared.Utils;
 
 public static class Extensions
 {

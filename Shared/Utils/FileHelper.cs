@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Shared
+namespace Shared.Utils
 {
     public static class FileHelper
     {        
@@ -26,7 +26,7 @@ namespace Shared
                 byte[] fileBytes = Convert.FromBase64String(base64String);
 
                 // Write the byte array to the specified file path
-                System.IO.File.WriteAllBytes(filePath, fileBytes);
+                File.WriteAllBytes(filePath, fileBytes);
                 return true;
             }
             catch

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Shared
+namespace Shared.Utils
 {
     public static class PasswordHelper
     {
