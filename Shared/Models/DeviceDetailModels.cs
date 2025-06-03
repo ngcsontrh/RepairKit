@@ -17,7 +17,6 @@ namespace Shared.Models
 
     public class CreateDeviceDetailRequest
     {
-        public Guid? ServiceDeviceId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public decimal? MinPrice { get; set; }

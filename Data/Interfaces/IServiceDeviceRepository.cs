@@ -11,5 +11,6 @@ namespace Data.Interfaces
     public interface IServiceDeviceRepository : IRepository<ServiceDevice>
     {
         Task<(List<ServiceDevice> ServiceDevices, int TotalCount)> GetListWithFilterAsync(ServiceDeviceFilter filter);
+        Task<ServiceDevice?> GetDetailAsync(Guid id);
     }
 }

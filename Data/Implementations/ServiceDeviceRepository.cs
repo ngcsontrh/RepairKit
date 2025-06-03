@@ -12,6 +12,14 @@ namespace Data.Implementations
         {
         }
 
+        public async Task<ServiceDevice?> GetDetailAsync(Guid id)
+        {
+            var serviceDevice = await _context.ServiceDevices
+                .Include(sd => sd.DeviceDetails)
+                .FirstOrDefaultAsync(sd => sd.Id == id);
+            return serviceDevice;
+        }
+
         public async Task<(List<ServiceDevice> ServiceDevices, int TotalCount)> GetListWithFilterAsync(ServiceDeviceFilter filter)
         {
             var query = _context.ServiceDevices.AsQueryable();
