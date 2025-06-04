@@ -60,6 +60,14 @@ namespace Data.Implementations
             return await _context.Set<T>().FindAsync(id);
         }
 
+        public async Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null)
+        {
+            predicate ??= x => true;
+            return await _context.Set<T>()
+                .Where(predicate)
+                .CountAsync();
+        }
+
         public async Task<List<Guid>> GetIdsAsync(Expression<Func<T, bool>> predicate)
         {
             var ids = await _context.Set<T>()
@@ -76,7 +84,7 @@ namespace Data.Implementations
             var entities = await query
                 .Skip(offset)
                 .Take(limit)
-                .OrderBy(x => EF.Property<Guid>(x, "Id"))
+                .OrderByDescending(x => EF.Property<DateTime>(x, "CreatedAt"))
                 .ToListAsync();
             var totalCount = await query.CountAsync();
             return (entities, totalCount);

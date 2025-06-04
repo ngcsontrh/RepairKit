@@ -14,6 +14,7 @@ namespace Shared.Entities
         public string? Title { get; set; }
         public string? Description { get; set; }
         public string? Type { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Order? Order { get; set; }
         public RepairmanForm? RepairmanForm { get; set; }

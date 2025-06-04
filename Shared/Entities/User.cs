@@ -22,6 +22,7 @@ namespace Shared.Entities
         public int? ReviewCount { get; set; }
         public string? Bio { get; set; }
         public string? WorkingStatus { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public List<AddressUser>? Addresses { get; set; }
     }

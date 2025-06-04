@@ -13,6 +13,7 @@ namespace Shared.Entities
         public string? Name { get; set; }
         public string? Description { get; set; }
         public decimal? MinPrice { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public ServiceDevice? ServiceDevice { get; set; }
     }

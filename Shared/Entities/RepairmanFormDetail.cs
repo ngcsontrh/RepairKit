@@ -14,6 +14,7 @@ namespace Shared.Entities
         public int? YearsOfExperience { get; set; }
         public string? Description { get; set; }
         public string? Degree {  get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public RepairmanForm? RepairmanForm { get; set; }
         public ServiceDevice? ServiceDevice { get; set; }

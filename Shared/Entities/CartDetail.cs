@@ -12,6 +12,7 @@ namespace Shared.Entities
         public Guid CartId { get; set; }
         public Guid ServiceDeviceId { get; set; }
         public int? Qty { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Cart? Cart { get; set; }
         public ServiceDevice? ServiceDevice { get; set; }

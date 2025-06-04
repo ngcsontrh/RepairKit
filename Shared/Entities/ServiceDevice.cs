@@ -12,6 +12,7 @@ namespace Shared.Entities
         public Guid ServiceId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Service? Service { get; set; }
         public List<DeviceDetail>? DeviceDetails { get; set; }

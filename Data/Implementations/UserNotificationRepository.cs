@@ -22,7 +22,7 @@ namespace Data.Implementations
                 .Skip(filter.Offset)
                 .Take(filter.Limit)
                 .Include(x => x.Notification)
-                .OrderBy(x => x.Id)
+                .OrderByDescending(x => x.CreatedAt)
                 .ToListAsync();
             var totalCount = await query.CountAsync();
 

@@ -12,6 +12,7 @@ namespace Shared.Entities
         public Guid UserId { get; set; }
         public string? Status { get; set; } = RepairmanFormStatus.Processing.ToString();
         public string? Areas { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public User? User { get; set; }
         public RepairmanFormDetail? Detail { get; set; }

@@ -11,6 +11,7 @@ namespace Shared.Entities
         public Guid Id { get; set; } = Guid.CreateVersion7();
         public Guid UserId { get; set; }
         public int? Qty { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public User? User { get; set; }
 

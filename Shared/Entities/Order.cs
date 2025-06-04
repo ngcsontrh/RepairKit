@@ -24,6 +24,7 @@ namespace Shared.Entities
         public string? RatingDescription { get; set; }
         public DateTime? RatingTern { get; set; }
         public DateTime? RatingDate { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public AddressUser? Address { get; set; }
         public User? Customer { get; set; }

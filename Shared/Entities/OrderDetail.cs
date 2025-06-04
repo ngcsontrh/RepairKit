@@ -16,6 +16,7 @@ namespace Shared.Entities
         public string? Video { get; set; }
         public string? Image { get; set; }
         public int? MinPrice { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public Order? Order { get; set; }
         public DeviceDetail? DeviceDetail { get; set; }

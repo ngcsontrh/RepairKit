@@ -21,5 +21,6 @@ namespace Data.Interfaces
         Task<List<Guid>> GetIdsAsync(Expression<Func<T, bool>> predicate);
         Task ExecuteDeleteAsync(Expression<Func<T, bool>> predicate);
         Task SaveChangesAsync();
+        Task<int> GetCountAsync(Expression<Func<T, bool>>? predicate = null);
     }
 }

@@ -54,4 +54,11 @@ namespace Shared
         Completed,
         Canceled
     }
+
+    public enum FilterTimeType
+    {
+        Today,
+        ThisWeek,
+        ThisMonth,
+    }
 }

@@ -1,4 +1,5 @@
-﻿using Shared.Entities;
+﻿using Shared;
+using Shared.Entities;
 using Shared.Filters;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,6 @@ namespace Data.Interfaces
         public Task<List<User>> GetListWithFilterAsync(UserFilter filter);
         public Task<User?> GetByPhoneAsync(string phone);
         public Task<User?> GetDetailAsync(Guid id);
+        public Task<(int today, int thisWeek, int thisMonth)> GetNewUserCountAsync();
     }
 }

@@ -179,5 +179,22 @@ namespace API.Controllers
 
             return NoContent();
         }
+
+        [HttpPost("{id}/cancel-order")]
+        public async Task<IActionResult> CancelOrderAsync([FromRoute] Guid id)
+        {
+            var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
+            if (order == null)
+            {
+                return NotFound("Order not found.");
+            }
+            if (order.Status != OrderStatus.Pending.ToString())
+            {
+                return BadRequest("Only pending orders can be canceled.");
+            }
+            order.Status = OrderStatus.Canceled.ToString();
+            await _unitOfWork.OrderRepository.SaveChangesAsync();
+            return NoContent();
+        }
     }
 }

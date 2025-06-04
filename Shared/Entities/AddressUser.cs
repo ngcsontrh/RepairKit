@@ -17,6 +17,7 @@ namespace Shared.Entities
         public string? District { get; set; }
         public string? FullName { get; set; }
         public string? Phone { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
 
         public User? User { get; set; }
     }
