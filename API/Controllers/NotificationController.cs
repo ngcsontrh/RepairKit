@@ -21,6 +21,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves notifications for the authenticated user with optional filtering and pagination.
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetUserNotificationsAsync(            
@@ -39,6 +42,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Marks specified notifications as read for the authenticated user.
+        /// </summary>
         [HttpPost("read")]
         [Authorize]
         public async Task<IActionResult> MarkNotificationAsReadAsync([FromBody] MarkNotificationAsReadRequest request)
@@ -51,6 +57,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Creates a system notification for specified users. Admin only.
+        /// </summary>
         [HttpPost("system")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateSystemNotificationAsync([FromBody] CreateNotificationRequest request)
@@ -74,6 +83,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Creates an order-related notification for specified users. Admin and Repairman roles only.
+        /// </summary>
         [HttpPost("order")]
         [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> CreateOrderNotificationAsync(
@@ -94,6 +106,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Creates a repairman form notification for specified users. Admin only.
+        /// </summary>
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRepairmanFormNotificationAsync(

@@ -7,6 +7,9 @@ namespace API.Controllers
     [ApiController]
     public class FileController : ControllerBase
     {
+        /// <summary>
+        /// Converts an uploaded file to a Base64-encoded string. Supports images and videos with appropriate data URI prefix.
+        /// </summary>
         [HttpPost("convert-to-base64")]
         public IActionResult ConvertToBase64([FromForm] ConvertToBase64Request request)
         {

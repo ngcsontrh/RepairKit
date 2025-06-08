@@ -20,6 +20,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves paginated cart details for the authenticated user.
+        /// </summary>
         [HttpGet("details")]
         [Authorize]
         public async Task<IActionResult> GetCartDetailsAsync([FromQuery] int offset = 0, [FromQuery] int limit = 10)
@@ -40,6 +43,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Adds a service device to the user's cart or updates the quantity if it already exists.
+        /// </summary>
         [HttpPost("details")]
         [Authorize]
         public async Task<IActionResult> AddToCartAsync(AddToCartRequest request)
@@ -76,6 +82,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates the quantity of a specific cart detail.
+        /// </summary>
         [HttpPatch("details/{cartDetailId}")]
         [Authorize]
         public async Task<IActionResult> UpdateCartDetailAsync(Guid cartDetailId, [FromBody] UpdateCartDetailRequest request)
@@ -99,6 +108,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Removes a specific cart detail from the user's cart.
+        /// </summary>
         [HttpDelete("details/{cartDetailId}")]
         [Authorize]
         public async Task<IActionResult> RemoveCartDetailAsync(Guid cartDetailId)

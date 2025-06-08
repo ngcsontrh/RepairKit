@@ -63,9 +63,17 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your API", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "RepairKit API",
+        Version = "v1",
+        Description = "API for the RepairKit",
+    });
 
-    // Cấu hình phân quyền JWT trên Swagger
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    c.IncludeXmlComments(xmlPath);
+
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme. Example: 'Bearer YOUR_TOKEN'",
@@ -88,7 +96,7 @@ builder.Services.AddSwaggerGen(c =>
             },
             Array.Empty<string>()
         }
-    });
+});
 });
 
 var app = builder.Build();

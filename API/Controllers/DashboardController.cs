@@ -17,6 +17,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves statistics for the admin dashboard
+        /// </summary>
         [HttpGet("statistics")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStatisticsAsync()

@@ -20,6 +20,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of repairman form submissions.
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetListAsync(
@@ -35,6 +38,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Retrieves the details of a specific repairman form by its ID.
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetDetailAsync([FromRoute] Guid id)
@@ -47,6 +53,9 @@ namespace API.Controllers
             return Ok(repairman);
         }
 
+        /// <summary>
+        /// Creates a new repairman form submission with optional degree file upload.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin,Customer")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateRepairmanFormRequest request)
@@ -88,6 +97,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates the status of a specific repairman form. If accepted, updates the user's role to Repairman.
+        /// </summary>
         [HttpPatch("{id}/status")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusAsync([FromRoute] Guid id, [FromBody] UpdateRepairmanFormStatusRequest request)

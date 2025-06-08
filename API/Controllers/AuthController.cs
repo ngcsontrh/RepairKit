@@ -36,6 +36,11 @@ namespace API.Controllers
             _memoryCache = memoryCache;
         }
 
+        /// <summary>
+        /// Authenticates a user and returns access and refresh tokens.
+        /// </summary>
+        /// <param name="request">The login request containing phone and password.</param>
+        /// <returns>Access and refresh tokens if authentication is successful.</returns>
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] AuthLoginRequest request)
         {
@@ -55,6 +60,11 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Refreshes the access token using a valid refresh token.
+        /// </summary>
+        /// <param name="request">The refresh token request containing user ID and refresh token.</param>
+        /// <returns>New access and refresh tokens if the refresh token is valid.</returns>
         [HttpPost("refresh-token")]
         public async Task<IActionResult> RefreshTokenAsync([FromBody] AuthRefreshTokenRequest request)
         {
@@ -77,6 +87,11 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Sends a password reset code to the user's email address.
+        /// </summary>
+        /// <param name="request">The request containing the user's email.</param>
+        /// <returns>Success message if the email exists and code is sent.</returns>
         [HttpPost("send-password-reset-code")]
         public async Task<IActionResult> SendPasswordResetCodeAsync([FromBody] SendPasswordResetCodeRequest request)
         {
@@ -104,6 +119,11 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Resets the user's password using the provided reset code and new password.
+        /// </summary>
+        /// <param name="request">The request containing email, reset code, and new password.</param>
+        /// <returns>Success message if the password is reset successfully.</returns>
         [HttpPost("reset-password")]
         public async Task<IActionResult> ResetPasswordAsync([FromBody] ResetPasswordRequest request)
         {

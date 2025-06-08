@@ -20,6 +20,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of services.
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetListAsync(
@@ -35,6 +38,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Retrieves the details of a specific service by its ID.
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
@@ -48,6 +54,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Creates a new service.
+        /// </summary>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateServiceRequest request)
@@ -57,6 +66,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates an existing service by its ID.
+        /// </summary>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateServiceRequest request)
@@ -71,6 +83,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a service and its related devices and details by its ID.
+        /// </summary>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
@@ -100,6 +115,9 @@ namespace API.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of devices for a specific service.
+        /// </summary>
         [HttpGet("{serviceId}/devices")]
         [Authorize]
         public async Task<IActionResult> GetDevicesAsync(
@@ -126,6 +144,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Retrieves the details of a specific device for a service.
+        /// </summary>
         [HttpGet("{serviceId}/devices/{deviceId}")]
         [Authorize]
         public async Task<IActionResult> GetDeviceByIdAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId)
@@ -144,6 +165,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Adds a new device to a specific service.
+        /// </summary>
         [HttpPost("{serviceId}/devices")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDevicesAsync([FromRoute] Guid serviceId, [FromBody] CreateServiceDeviceRequest request)
@@ -159,6 +183,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates a device for a specific service.
+        /// </summary>
         [HttpPut("{serviceId}/devices/{deviceId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDeviceAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromBody] CreateServiceDeviceRequest request)
@@ -178,6 +205,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Removes a device from a specific service.
+        /// </summary>
         [HttpDelete("{serviceId}/devices/{deviceId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDeviceAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId)
@@ -196,6 +226,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of details for a specific device of a service.
+        /// </summary>
         [HttpGet("{serviceId}/devices/{deviceId}/detail")]
         [Authorize]
         public async Task<IActionResult> GetDeviceDetailsAsync(
@@ -226,6 +259,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Adds a new detail to a specific device of a service.
+        /// </summary>
         [HttpPost("{serviceId}/devices/{deviceId}/detail")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromBody] CreateDeviceDetailRequest request)
@@ -246,6 +282,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates a detail for a specific device of a service.
+        /// </summary>
         [HttpPut("{serviceId}/devices/{deviceId}/detail/{detailId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromRoute] Guid detailId, [FromBody] UpdateDeviceDetailRequest request)
@@ -270,6 +309,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Removes a detail from a specific device of a service.
+        /// </summary>
         [HttpDelete("{serviceId}/devices/{deviceId}/detail/{detailId}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromRoute] Guid detailId)

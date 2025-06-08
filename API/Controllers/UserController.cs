@@ -31,6 +31,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Creates a new user with optional avatar upload and initializes a cart.
+        /// </summary>
         [HttpPost]
         public async Task<IActionResult> CreateUserAsync([FromForm] CreateUserRequest request)
         {
@@ -68,6 +71,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Retrieves a user by their ID.
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetUserByIdAsync([FromRoute] Guid id)
@@ -80,6 +86,9 @@ namespace API.Controllers
             return Ok(user.Adapt<UserDto>());
         }
 
+        /// <summary>
+        /// Retrieves a list of users based on filter criteria.
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetListUserAsync([FromQuery] UserFilter request)
@@ -88,6 +97,9 @@ namespace API.Controllers
             return Ok(users.Adapt<List<UserDto>>());
         }
 
+        /// <summary>
+        /// Updates a user's information, including optional avatar upload.
+        /// </summary>
         [HttpPut("{id}")]
         [Authorize]
         public async Task<IActionResult> UpdateUserAsync(
@@ -132,6 +144,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes a user by their ID. Admin only.
+        /// </summary>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUserAsync([FromRoute] Guid id)
@@ -145,6 +160,9 @@ namespace API.Controllers
             return NoContent();
         }        
 
+        /// <summary>
+        /// Changes a user's password after verifying the old password.
+        /// </summary>
         [HttpPatch("{id}/password")]
         [Authorize]
         public async Task<IActionResult> ChangePasswordAsync(
@@ -172,6 +190,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Changes a user's status. Admin only.
+        /// </summary>
         [HttpPatch("{id}/status")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeStatusAsync(
@@ -188,6 +209,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Changes a user's role. Admin only.
+        /// </summary>
         [HttpPatch("{id}/role")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> ChangeRoleAsync(
@@ -204,6 +228,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Retrieves all addresses for a user.
+        /// </summary>
         [HttpGet("{userId}/address")]
         [Authorize]
         public async Task<IActionResult> GetAddressAsync([FromRoute] Guid userId)
@@ -223,6 +250,9 @@ namespace API.Controllers
             return Ok(addresses.Adapt<List<AddressUserDto>>());
         }
 
+        /// <summary>
+        /// Adds a new address for a user.
+        /// </summary>
         [HttpPost("{userId}/address")]
         [Authorize]
         public async Task<IActionResult> AddAddressAsync(
@@ -253,6 +283,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Updates an address for a user.
+        /// </summary>
         [HttpPut("{userId}/address/{addressId}")]
         [Authorize]
         public async Task<IActionResult> UpdateAddressAsync(
@@ -282,6 +315,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Deletes an address for a user.
+        /// </summary>
         [HttpDelete("{userId}/address/{addressId}")]
         [Authorize]
         public async Task<IActionResult> DeleteAddressAsync(

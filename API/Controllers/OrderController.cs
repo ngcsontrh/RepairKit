@@ -23,6 +23,9 @@ namespace API.Controllers
             _unitOfWork = unitOfWork;
         }
 
+        /// <summary>
+        /// Retrieves a paginated list of orders based on the provided filter.
+        /// </summary>
         [HttpGet]
         [Authorize]
         public async Task<IActionResult> GetListAsync([FromQuery] OrderFilter filter)
@@ -35,6 +38,9 @@ namespace API.Controllers
             });
         }
 
+        /// <summary>
+        /// Retrieves the details of a specific order by its ID.
+        /// </summary>
         [HttpGet("{id}")]
         [Authorize]
         public async Task<IActionResult> GetDetailAsync([FromRoute] Guid id)
@@ -48,6 +54,9 @@ namespace API.Controllers
             return Ok(result);
         }
 
+        /// <summary>
+        /// Creates a new order with the provided details and files.
+        /// </summary>
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] CreateOrderRequest request)
@@ -134,6 +143,9 @@ namespace API.Controllers
             return Created();
         }
 
+        /// <summary>
+        /// Rates a specific order by its ID.
+        /// </summary>
         [HttpPatch("{id}/rate")]
         [Authorize]
         public async Task<IActionResult> RateOrderAsync([FromRoute] Guid id, [FromBody] RateOrderRequest request)
@@ -150,6 +162,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Updates the repair information for a specific order. Admin and Repairman roles only.
+        /// </summary>
         [HttpPatch("{id}/repair")]
         [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> RepairOrderAsync([FromRoute] Guid id, [FromBody] RepairOrderRequest request)
@@ -170,6 +185,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Updates the payment information for a specific order. Admin and Repairman roles only.
+        /// </summary>
         [HttpPost("{id}/payment")]
         [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> PaymentOrderAsync([FromRoute] Guid id, [FromBody] PaymentOrderRequest request)
@@ -186,6 +204,9 @@ namespace API.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Cancels a specific order if it is still pending.
+        /// </summary>
         [HttpPost("{id}/cancel-order")]
         public async Task<IActionResult> CancelOrderAsync([FromRoute] Guid id)
         {
