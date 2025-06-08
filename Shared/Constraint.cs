@@ -13,5 +13,7 @@ namespace Shared
         public static List<string> UserRoles { get; } = Enum.GetNames<UserRole>().ToList();
         public static List<string> UserStatuses { get; } = Enum.GetNames<UserStatus>().ToList();
         public static List<string> UserWorkingStatuses { get; } = Enum.GetNames<UserWorkingStatus>().ToList();
+        public static List<string> OrderStatuses { get; } = Enum.GetNames<OrderStatus>().ToList();
+        public static List<string> RepairmanFormStatuses { get; } = Enum.GetNames<RepairmanFormStatus>().ToList();
     }
 }

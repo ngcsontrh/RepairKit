@@ -8,12 +8,48 @@ namespace Shared.Validations
         public AuthLoginRequestValidator()
         {
             RuleFor(x => x.Phone)
-                .NotEmpty().WithMessage("Số điện thoại không được để trống.")
-                .Length(10).WithMessage("Số điện thoại phải gồm 10 chữ số.")
-                .Matches(@"^\d{10}$").WithMessage("Số điện thoại chỉ được chứa chữ số.");
+                .NotEmpty().WithMessage("Phone number is required.")
+                .Length(10).WithMessage("Phone number must be exactly 10 digits.")
+                .Matches(@"^\d{10}$").WithMessage("Phone number must contain only digits.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Mật khẩu không được để trống.");
+                .NotEmpty().WithMessage("Password is required.");
+        }
+    }
+
+    public class AuthRefreshTokenRequestValidator : AbstractValidator<AuthRefreshTokenRequest>
+    {
+        public AuthRefreshTokenRequestValidator()
+        {
+            RuleFor(x => x.UserId)
+                .NotEmpty().WithMessage("UserId is required.");
+            RuleFor(x => x.RefreshToken)
+                .NotEmpty().WithMessage("RefreshToken is required.");
+        }
+    }
+
+    public class SendPasswordResetCodeRequestValidator : AbstractValidator<SendPasswordResetCodeRequest>
+    {
+        public SendPasswordResetCodeRequestValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
+        }
+    }
+
+    public class ResetPasswordRequestValidator : AbstractValidator<ResetPasswordRequest>
+    {
+        public ResetPasswordRequestValidator()
+        {
+            RuleFor(x => x.Email)
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
+            RuleFor(x => x.Code)
+                .NotEmpty().WithMessage("Verification code is required.");
+            RuleFor(x => x.NewPassword)
+                .NotEmpty().WithMessage("New password is required.")
+                .MinimumLength(6).WithMessage("New password must be at least 6 characters long.");
         }
     }
 
@@ -22,11 +58,11 @@ namespace Shared.Validations
         public ChangePasswordValidator()
         {
             RuleFor(x => x.OldPassword)
-                .NotEmpty().WithMessage("Vui lòng nhập mật khẩu cũ.");
+                .NotEmpty().WithMessage("Old password is required.");
 
             RuleFor(x => x.NewPassword)
-                .NotEmpty().WithMessage("Vui lòng nhập mật khẩu mới.")
-                .MinimumLength(6).WithMessage("Mật khẩu mới phải có ít nhất 6 ký tự.");
+                .NotEmpty().WithMessage("New password is required.")
+                .MinimumLength(6).WithMessage("New password must be at least 6 characters long.");
         }
     }
 
@@ -35,8 +71,8 @@ namespace Shared.Validations
         public ForgotPasswordRequestValidator()
         {
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
         }
     }
 
@@ -45,28 +81,28 @@ namespace Shared.Validations
         public CreateUserRequestValidator()
         {
             RuleFor(x => x.FullName)
-                .NotEmpty().WithMessage("Họ tên không được để trống.");
+                .NotEmpty().WithMessage("Full name is required.");
 
             RuleFor(x => x.DateOfBirth)
-                .LessThan(DateTime.Now).WithMessage("Ngày sinh phải nhỏ hơn ngày hiện tại.")
+                .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.")
                 .When(x => x.DateOfBirth.HasValue);
 
             RuleFor(x => x.Email)
-                .NotEmpty().WithMessage("Email không được để trống.")
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .NotEmpty().WithMessage("Email is required.")
+                .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(x => x.Phone)
-                .NotEmpty().WithMessage("Số điện thoại không được để trống.")
-                .Length(10).WithMessage("Số điện thoại phải gồm 10 chữ số.")
-                .Matches(@"^\d{10}$").WithMessage("Số điện thoại chỉ được chứa chữ số.");
+                .NotEmpty().WithMessage("Phone number is required.")
+                .Length(10).WithMessage("Phone number must be exactly 10 digits.")
+                .Matches(@"^\d{10}$").WithMessage("Phone number must contain only digits.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Mật khẩu không được để trống.")
-                .MinimumLength(6).WithMessage("Mật khẩu phải có ít nhất 6 ký tự.");
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 
             RuleFor(x => x.Gender)
                 .Must(g => Constraint.UserGenders.Contains(g))
-                .WithMessage("Giới tính phải là Male, Female hoặc Other");
+                .WithMessage("Gender must be Male, Female, or Other.");
         }
     }
 
@@ -75,18 +111,18 @@ namespace Shared.Validations
         public UpdateCustomerRequestValidator()
         {
             RuleFor(x => x.FullName)
-                .NotEmpty().WithMessage("Họ tên không được để trống.");
+                .NotEmpty().WithMessage("Full name is required.");
 
             RuleFor(x => x.Email)
-                .EmailAddress().WithMessage("Định dạng email không hợp lệ.");
+                .EmailAddress().WithMessage("Invalid email format.");
 
             RuleFor(x => x.Password)
-                .NotEmpty().WithMessage("Mật khẩu không được để trống.")
-                .MinimumLength(6).WithMessage("Mật khẩu phải có ít nhất 6 ký tự.");
+                .NotEmpty().WithMessage("Password is required.")
+                .MinimumLength(6).WithMessage("Password must be at least 6 characters long.");
 
             RuleFor(x => x.Gender)
                 .Must(g => Constraint.UserGenders.Contains(g))
-                .WithMessage("Giới tính phải là Male, Female hoặc Other");
+                .WithMessage("Gender must be Male, Female, or Other.");
         }
     }
 
@@ -95,9 +131,9 @@ namespace Shared.Validations
         public ChangeUserStatusRequestValidator()
         {
             RuleFor(x => x.Status)
-                .NotEmpty().WithMessage("Trạng thái người dùng không được để trống.")
+                .NotEmpty().WithMessage("User status is required.")
                 .Must(s => Constraint.UserStatuses.Contains(s))
-                .WithMessage("Trạng thái người dùng phải là Active, Inactive hoặc Disabled.");
+                .WithMessage("User status must be Active, Inactive, or Disabled.");
         }
     }
 }

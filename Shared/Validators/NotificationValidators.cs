@@ -28,4 +28,22 @@ namespace Shared.Validators
                 .Must(ids => ids?.Count > 0).WithMessage("At least one notification ID is required.");
         }
     }
+
+    public class CreateOrderNotificationRequestValidator : AbstractValidator<CreateOrderNotificationRequest>
+    {
+        public CreateOrderNotificationRequestValidator()
+        {
+            Include(new CreateNotificationRequestValidator());
+            RuleFor(x => x.OrderId).NotNull().WithMessage("Order ID is required.");
+        }
+    }
+
+    public class CreateRepairmanFormNotificationRequestValidator : AbstractValidator<CreateRepairmanFormNotificationRequest>
+    {
+        public CreateRepairmanFormNotificationRequestValidator()
+        {
+            Include(new CreateNotificationRequestValidator());
+            RuleFor(x => x.RepairmanFormId).NotNull().WithMessage("Repairman Form ID is required.");
+        }
+    }
 }
