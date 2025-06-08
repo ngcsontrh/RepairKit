@@ -8,11 +8,11 @@ namespace Shared.ConfigurationSettings
 {
     public class MailSettings
     {
-        public string SmtpServer { get; set; } = null!;
+        public string SmtpServer { get; set; } = string.Empty;
         public int Port { get; set; }
-        public string SenderName { get; set; } = null!;
-        public string SenderEmail { get; set; } = null!;
-        public string Username { get; set; } = null!;
-        public string Password { get; set; } = null!;
+        public string SenderName { get; set; } = string.Empty;
+        public string SenderMail { get; set; } = string.Empty;
+        public string Username { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
     }
 }

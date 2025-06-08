@@ -11,6 +11,7 @@ namespace Data.Interfaces
 {
     public interface IUserRepository : IRepository<User>
     {
+        public Task<User?> GetByEmailAsync(string email);
         public Task<List<User>> GetListWithFilterAsync(UserFilter filter);
         public Task<User?> GetByPhoneAsync(string phone);
         public Task<User?> GetDetailAsync(Guid id);

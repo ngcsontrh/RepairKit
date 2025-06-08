@@ -32,9 +32,28 @@ namespace Shared.Models
         public string? Password { get; set; }
     }
 
+    public class AuthRefreshTokenRequest
+    {
+        public Guid? UserId { get; set; }
+        public string? RefreshToken { get; set; }
+    }
+
+    public class SendPasswordResetCodeRequest
+    {
+        public string? Email { get; set; }
+    }
+
+    public class ResetPasswordRequest
+    {
+        public string? Email { get; set; }
+        public string? Code { get; set; }
+        public string? NewPassword { get; set; }
+    }
+
     public class AuthLoginResponse
     {
         public string? AccessToken { get; set; }
+        public string? RefreshToken { get; set; }
     }
    
     public class ChangePasswordRequest

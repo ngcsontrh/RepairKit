@@ -1,4 +1,6 @@
-﻿using Data;
+﻿using API.Services.Implementations;
+using API.Services.Interfaces;
+using Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 using Shared;
@@ -11,6 +13,13 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddValidators();
 
 builder.Services.AddDataServices(connectionString);
+
+builder.Services.AddMemoryCache();
+
+builder.Services.Configure<MailSettings>(
+    builder.Configuration.GetSection("MailSettings"));
+
+builder.Services.AddTransient<IMailService, MailService>();
 
 builder.Services.AddControllers();
 
