@@ -24,6 +24,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetListAsync([FromQuery] OrderFilter filter)
         {
             var orders = await _unitOfWork.OrderRepository.GetPageByFilterAsync(filter);
@@ -35,6 +36,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetDetailAsync([FromRoute] Guid id)
         {
             var order = await _unitOfWork.OrderRepository.GetDetailAsync(id);
@@ -47,6 +49,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateAsync([FromBody] CreateOrderRequest request)
         {
             var order = request.Adapt<Order>();
@@ -132,6 +135,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}/rate")]
+        [Authorize]
         public async Task<IActionResult> RateOrderAsync([FromRoute] Guid id, [FromBody] RateOrderRequest request)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
@@ -147,6 +151,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}/repair")]
+        [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> RepairOrderAsync([FromRoute] Guid id, [FromBody] RepairOrderRequest request)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);
@@ -166,6 +171,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{id}/payment")]
+        [Authorize(Roles = "Admin,Repairman")]
         public async Task<IActionResult> PaymentOrderAsync([FromRoute] Guid id, [FromBody] PaymentOrderRequest request)
         {
             var order = await _unitOfWork.OrderRepository.GetByIdAsync(id);

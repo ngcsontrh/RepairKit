@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -20,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> GetListAsync(
             [FromQuery] int offset = 0,
             [FromQuery] int limit = 10
@@ -34,6 +36,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<IActionResult> GetByIdAsync([FromRoute] Guid id)
         {
             var service = await _unitOfWork.ServiceRepository.GetDetailAsync(id);
@@ -46,6 +49,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateAsync([FromBody] CreateServiceRequest request)
         {
             var service = request.Adapt<Shared.Entities.Service>();
@@ -54,6 +58,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateAsync([FromRoute] Guid id, [FromBody] UpdateServiceRequest request)
         {
             var existingService = await _unitOfWork.ServiceRepository.GetByIdAsync(id);
@@ -67,6 +72,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteAsync([FromRoute] Guid id)
         {
             try
@@ -95,6 +101,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{serviceId}/devices")]
+        [Authorize]
         public async Task<IActionResult> GetDevicesAsync(
             [FromRoute] Guid serviceId,
             [FromQuery] int offset = 0,
@@ -120,6 +127,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{serviceId}/devices/{deviceId}")]
+        [Authorize]
         public async Task<IActionResult> GetDeviceByIdAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -137,6 +145,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{serviceId}/devices")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDevicesAsync([FromRoute] Guid serviceId, [FromBody] CreateServiceDeviceRequest request)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -151,6 +160,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{serviceId}/devices/{deviceId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDeviceAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromBody] CreateServiceDeviceRequest request)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -169,6 +179,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{serviceId}/devices/{deviceId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDeviceAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -186,6 +197,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{serviceId}/devices/{deviceId}/detail")]
+        [Authorize]
         public async Task<IActionResult> GetDeviceDetailsAsync(
             [FromRoute] Guid serviceId,
             [FromRoute] Guid deviceId,
@@ -215,6 +227,7 @@ namespace API.Controllers
         }
 
         [HttpPost("{serviceId}/devices/{deviceId}/detail")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> AddDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromBody] CreateDeviceDetailRequest request)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -234,6 +247,7 @@ namespace API.Controllers
         }
 
         [HttpPut("{serviceId}/devices/{deviceId}/detail/{detailId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromRoute] Guid detailId, [FromBody] UpdateDeviceDetailRequest request)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);
@@ -257,6 +271,7 @@ namespace API.Controllers
         }
 
         [HttpDelete("{serviceId}/devices/{deviceId}/detail/{detailId}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> RemoveDeviceDetailAsync([FromRoute] Guid serviceId, [FromRoute] Guid deviceId, [FromRoute] Guid detailId)
         {
             var isServiceExists = await _unitOfWork.ServiceRepository.AnyAsync(s => s.Id == serviceId);

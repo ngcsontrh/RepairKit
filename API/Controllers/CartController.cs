@@ -21,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet("details")]
+        [Authorize]
         public async Task<IActionResult> GetCartDetailsAsync([FromQuery] int offset = 0, [FromQuery] int limit = 10)
         {
             if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var userId))

@@ -1,4 +1,5 @@
 ﻿using Data.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -17,6 +18,7 @@ namespace API.Controllers
         }
 
         [HttpGet("statistics")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetStatisticsAsync()
         {
             var totalUserCount = await _unitOfWork.UserRepository.GetCountAsync();

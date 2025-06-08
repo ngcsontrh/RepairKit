@@ -1,5 +1,6 @@
 ﻿using Data.Interfaces;
 using Mapster;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Shared;
@@ -20,6 +21,7 @@ namespace API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetListAsync(
             [FromQuery] int offset = 0,
             [FromQuery] int limit = 10
@@ -34,6 +36,7 @@ namespace API.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> GetDetailAsync([FromRoute] Guid id)
         {
             var repairman = await _unitOfWork.RepairmanFormRepository.GetDetailAsync(id);
@@ -45,6 +48,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Customer")]
         public async Task<IActionResult> CreateAsync([FromForm] CreateRepairmanFormRequest request)
         {
             var isRepairmanExists = await _unitOfWork.RepairmanFormRepository.AnyAsync(x => x.UserId == request.UserId!.Value);
@@ -85,6 +89,7 @@ namespace API.Controllers
         }
 
         [HttpPatch("{id}/status")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateStatusAsync([FromRoute] Guid id, [FromBody] UpdateRepairmanFormStatusRequest request)
         {
             var repairmanForm = await _unitOfWork.RepairmanFormRepository.GetByIdAsync(id);
